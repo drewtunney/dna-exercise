@@ -46,7 +46,6 @@ aBases = function(dna){
 // # 3) How many unique, non-overlaping, complete "octets"? (octet = group of 8 bases)
 
 nonOverlappingOctets = function(dna){
-  // split dna into octets every 8 characters
   var octets = dna.match(/.{8}/g);
   return _.uniq(octets).length;
 }
@@ -56,11 +55,8 @@ nonOverlappingOctets = function(dna){
 overlappingOctets = function(dna){
   var octetList = [];
 
-  for ( i = 0; i < dna.length - 7 ; i++ ){
-    // push a substring of 8 characters into the octetList array
-    // start from index[0] and increment to the next until the last complete octet  
+  for ( i = 0; i < dna.length - 7 ; i++ ){ 
     var octet = dna.substring(i, i + 8);
-    console.log(octet);
       octetList.push(octet);
     }
 
@@ -70,35 +66,52 @@ overlappingOctets = function(dna){
 // # 5) What is the reverse complement? (G <=> C; A <=> T)
 
 reverseComplement = function(dna){
-  var dna = dna.split('');
+  var reverse = dna.split('').reverse();
+  var complements = [];
 
- return _.map(dna, function(letter){
-
-    switch (letter) {
-      case 'G': return 'C';
-      case 'C': return 'G';
-      case 'A': return 'T';
-      case 'T': return 'A';
-      console.log(letter); 
+  for ( var i = 0; i < reverse.length; i++ ){
+    switch (reverse[i]){
+      case reverse[i] = 'G' : complements.push('C');
+        break;
+      case reverse[i] = 'C' : complements.push('G');
+        break;
+      case reverse[i] = 'A' : complements.push('T');
+        break;
+      case reverse[i] = 'T' : complements.push('A');
+        break;
     }
+  }
 
-  }).join('');
-
-}
-
-// **** Reverse Complement First Attempt **** //
-
-// reverseComplement = function(dna){
-//   use lowercase letters to hold the place of converted letters
-//   var dna = dna.replace(/G/g, "c");
-//   var dna = dna.replace(/A/g, "t");
-//   var dna = dna.replace(/C/g, "G");
-//   var dna = dna.replace(/T/g, "A");
-//   var dna = dna.replace(/c/g, "C");
-//   var dna = dna.replace(/t/g, "T");
-// }
+  return complements.join('');
+};
 
 
 // # 6) How many unique octets exist for the DNA bases?
-// 4 ^ 8
+
+uniqueBaseOctets = function(){
+  buildOctets(8, "");
+  return octets.length;
+}
+
+var octets = [];
+
+buildOctets = function(length, prefix) {
+
+  if (length > 1) {
+    buildOctets( length - 1, prefix + 'G' );
+    buildOctets( length - 1, prefix + 'C' );
+    buildOctets( length - 1, prefix + 'A' );
+    buildOctets( length - 1, prefix + 'T' );
+  } else {
+    octets.push( prefix + 'G' );
+    octets.push( prefix + 'C' );
+    octets.push( prefix + 'A' );
+    octets.push( prefix + 'T' );
+  }
+
+};
+
+
+
+
 
